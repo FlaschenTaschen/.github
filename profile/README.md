@@ -3,6 +3,12 @@
 <p align="center"><em>A wall of light made from milk crates and bottles.</em></p>
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/FlaschenTaschen/.github/main/profile/1000px-Flaschentable.jpg" alt="The FlaschenTaschen LED wall glowing in rainbow colors above a workbench at Noisebridge" width="460" />
+  <br />
+  <sub>The FlaschenTaschen wall at Noisebridge, San Francisco · <a href="https://www.noisebridge.net/wiki/File:Flaschentable.jpg">photo source</a></sub>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/display-45×35%20(1,575%20px)-brightgreen" alt="Display size" />
   <img src="https://img.shields.io/badge/protocol-UDP%20:1337-blue" alt="Protocol" />
   <img src="https://img.shields.io/badge/origin-Noisebridge%20SF%202016-orange" alt="Origin" />

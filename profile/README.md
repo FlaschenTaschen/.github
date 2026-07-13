@@ -37,6 +37,7 @@ server and Carl Gorringe's [cgorringe/ft-demos](https://github.com/cgorringe/ft-
 | **[ft-cpp](https://github.com/FlaschenTaschen/ft-cpp)** | C++ | The unified C++ codebase — server (terminal / RGB-matrix / spixels backends), the `libftclient` library, content clients (send-text/image/video), and demos, all under one make-based build. The reference implementation. |
 | **[ft-py](https://github.com/FlaschenTaschen/ft-py)** | Python | `flaschen-taschen-py` — a pip-installable client with a drawing canvas, text/image/video generators, CLI tools, and 9+ interactive demos (Game of Life, plasma, fractals, Matrix rain…). |
 | **[ft-swift](https://github.com/FlaschenTaschen/ft-swift)** | Swift | A Swift package: the `FlaschenTaschenClientKit` library, content clients, 15+ generative demos ported from ft-demos, a debugger, and a native macOS display server. |
+| **[ft-darwin](https://github.com/FlaschenTaschen/ft-darwin)** | Swift | A native Apple-platform app that turns a **Mac, iPhone/iPad, or Apple TV** into a FlaschenTaschen display — runs the UDP server, renders incoming frames on screen, and advertises over Bonjour for automatic discovery. Built on `ft-swift`. |
 | **[ft-scripts](https://github.com/FlaschenTaschen/ft-scripts)** | Python | Real-world displays for a wall in the wild — now-playing track info from Volumio and live SF MUNI transit arrivals, ready to run on a Raspberry Pi via cron or systemd. |
 | **[ft-esp32](https://github.com/FlaschenTaschen/ft-esp32)** | C++ | FlaschenTaschen display on an ESP32 — a small, WiFi-connected microcontroller build that receives the UDP pixel protocol and drives the LEDs directly, no host computer required. |
 
@@ -80,7 +81,7 @@ Each repository has its own README with full install, build, and usage details.
 
 ## License
 
-`ft-cpp` is **GPLv3** (following the upstream server). `ft-py`, `ft-swift`, and `ft-scripts` are **MIT**.
+`ft-cpp` is **GPLv3** (following the upstream server). `ft-py`, `ft-swift`, `ft-darwin`, and `ft-scripts` are **MIT**.
 See each repository's `LICENSE` for details.
 
 ## Credits

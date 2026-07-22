@@ -1,91 +1,59 @@
-<h1 align="center">🍾 FlaschenTaschen</h1>
+# Flaschen Taschen
 
-<p align="center"><em>A wall of light made from milk crates and bottles.</em></p>
+
+The [Flaschen Taschen](https://www.noisebridge.net/wiki/Flaschen_Taschen) is a networked video display made out of 1,575 beer bottles, each containing an RGB LED, in a 9x7 grid of milk crates. It was built by [Noisebridge](https://www.noisebridge.net/wiki) for Maker Faire 2016, where it won the Editor's Choice Award.
+
+## Protocol
+
+The FT protocol is PPM-over-UDP to port 1337, with an optional annotation for image placement. For a description of PPM, see [here](https://netpbm.sourceforge.net/doc/ppm.html). The maxval must be 255.
+
+The placement annotation is written as a comment in the PPM header starting with `#FT: `, then three ASCII decimal numbers for x, y, and z positions. The x and y positions count right and down from the top-left corner, and the z position indicates a layer (a number from 0 to 15). Higher layers are drawn above lower layers. The RGB value #000000 on layers above 0 is interpreted as transparent, and shows the contents of a lower layer. This can be useful for compositing. For opaque black, send #010101.
+
+For example, the following message places a 6x6 image at x=5, y=0, z=15.
+```
+P6
+6 6
+#FT: 5 0 15
+255
+[36 3-byte RGB colors]
+```
+
+Since each milk crate is 5x5 pixels, the image will cover the second milk crate in the first row, and extend one pixel right and down. 
+
+For more details, see the [original protocol documentation](https://github.com/hzeller/flaschen-taschen/blob/master/doc/protocols.md).
+
+## This organization
+
+This org contains clients, servers, libraries, demos, and utilities built around the FT protocol in various languages.
+
+| Repo | Language | Notes |
+| --- | --- | --- |
+| [ft-cpp](https://github.com/FlaschenTaschen/ft-cpp) | C++ | Modernization of the [original codebase](https://github.com/hzeller/flaschen-taschen). |
+| [ft-py](https://github.com/FlaschenTaschen/ft-py) | Python | Port of client library and demos. |
+| [ft-swift](https://github.com/FlaschenTaschen/ft-swift) | Swift | Port of client library and demos. |
+| [ft-darwin](https://github.com/FlaschenTaschen/ft-darwin) | Swift | Apple-native Flaschen Taschen display server. |
+| [ft-scripts](https://github.com/FlaschenTaschen/ft-scripts) | Python | Client programs which display currently playing music and MUNI bus arrivals. |
+| [ft-esp32](https://github.com/FlaschenTaschen/ft-esp32) | C++ | Standalone ESP32+WS2812B display server. |
+
+## Get involved
+
+Pick your favorite language and follow the README to get started. If you're at Noisebridge, the Flaschen Taschen is reachable at `ft.local`. If not, you can run a local display server in your terminal:
+
+```bash
+git clone https://github.com/FlaschenTaschen/ft-cpp
+cd ft-cpp
+make server
+./build/server/ft-server
+```
+
+New demos, projects, client libraries, and questions are always welcome. You can open a github issue or pull request, or visit [#flaschen-taschen](https://discord.com/channels/720514857094348840/958465813478772757) in the Noisebridge discord.
+
+## Credits
+
+The Flaschen Taschen is the work of the Noisebridge community in 2016 and beyond. The projects in this org are descended from hzeller's [original flaschen-taschen repo](https://github.com/hzeller/flaschen-taschen) and Carl Gorringe's [ft-demos](https://github.com/cgorringe/ft-demos).
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/FlaschenTaschen/.github/main/profile/1000px-Flaschentable.jpg" alt="The FlaschenTaschen LED wall glowing in rainbow colors above a workbench at Noisebridge" width="460" />
   <br />
-  <sub>The FlaschenTaschen wall at Noisebridge, San Francisco · <a href="https://www.noisebridge.net/wiki/File:Flaschentable.jpg">photo source</a></sub>
+  <sub>The Flaschen Taschen in Noisebridge · <a href="https://www.noisebridge.net/wiki/File:Flaschentable.jpg">Photo source</a></sub>
 </p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/display-45×35%20(1,575%20px)-brightgreen" alt="Display size" />
-  <img src="https://img.shields.io/badge/protocol-UDP%20:1337-blue" alt="Protocol" />
-  <img src="https://img.shields.io/badge/origin-Noisebridge%20SF%202016-orange" alt="Origin" />
-  <img src="https://img.shields.io/badge/Maker%20Faire%202016-Editor's%20Choice-yellow" alt="Award" />
-</p>
-
----
-
-**FlaschenTaschen** ("bottle bags") is a networked LED art installation born at
-[Noisebridge](https://noisebridge.net/wiki/Flaschen_Taschen) in San Francisco in 2016. It is built
-from a 9×7 grid of milk crates filled with aluminum-wrapped bottles — **45×35 pixels, 1,575 LEDs in
-all** — and it won the **Editor's Choice Award at Maker Faire 2016**.
-
-Any program can paint the wall by sending it pixels: a tiny image (PPM/P6) wrapped in a UDP packet on
-port **1337**, with optional metadata for placement and multi-layer compositing. That simple protocol
-is what ties this organization's projects together — one display, many ways to drive it.
-
-This org gathers a family of clients, libraries, demos, and utilities built around that protocol,
-descended from the original [hzeller/flaschen-taschen](https://github.com/hzeller/flaschen-taschen)
-server and Carl Gorringe's [cgorringe/ft-demos](https://github.com/cgorringe/ft-demos) collection.
-
-## Projects
-
-| Project | Language | What it is |
-| --- | --- | --- |
-| **[ft-cpp](https://github.com/FlaschenTaschen/ft-cpp)** | C++ | The unified C++ codebase — server (terminal / RGB-matrix / spixels backends), the `libftclient` library, content clients (send-text/image/video), and demos, all under one make-based build. The reference implementation. |
-| **[ft-py](https://github.com/FlaschenTaschen/ft-py)** | Python | `flaschen-taschen-py` — a pip-installable client with a drawing canvas, text/image/video generators, CLI tools, and 9+ interactive demos (Game of Life, plasma, fractals, Matrix rain…). |
-| **[ft-swift](https://github.com/FlaschenTaschen/ft-swift)** | Swift | A Swift package: the `FlaschenTaschenClientKit` library, content clients, 15+ generative demos ported from ft-demos, a debugger, and a native macOS display server. |
-| **[ft-darwin](https://github.com/FlaschenTaschen/ft-darwin)** | Swift | A native Apple-platform app that turns a **Mac, iPhone/iPad, or Apple TV** into a FlaschenTaschen display — runs the UDP server, renders incoming frames on screen, and advertises over Bonjour for automatic discovery. Built on `ft-swift`. |
-| **[ft-scripts](https://github.com/FlaschenTaschen/ft-scripts)** | Python | Real-world displays for a wall in the wild — now-playing track info from Volumio and live SF MUNI transit arrivals, ready to run on a Raspberry Pi via cron or systemd. |
-| **[ft-esp32](https://github.com/FlaschenTaschen/ft-esp32)** | C++ | FlaschenTaschen display on an ESP32 — a small, WiFi-connected microcontroller build that receives the UDP pixel protocol and drives the LEDs directly, no host computer required. |
-
-## How it works
-
-```
-P6
-45 35
-255
-#FT: <x> <y> <z>          ← optional placement + layer
-[ binary RGB pixel data ] ← one UDP packet → the wall
-```
-
-Pick the language you like, point a client at the display's host on port 1337, and start drawing.
-
-## Getting started
-
-The quickest taste is the Python client:
-
-```bash
-pip install flaschen-taschen-py
-send-text -g 45x35 -h display.local "Hello, wall"
-```
-
-Or build the C++ reference server and run a demo locally:
-
-```bash
-git clone https://github.com/FlaschenTaschen/ft-cpp && cd ft-cpp
-make server          # terminal backend by default
-make client          # client tools + games
-```
-
-Each repository has its own README with full install, build, and usage details.
-
-## Get involved
-
-- **Build something** — any language that can send a UDP packet can drive the wall. Pick a client library above and start drawing.
-- **Add a demo** — the Python and Swift repos make it easy to drop in a new animation; open a PR.
-- **Learn the backstory** — see the [Flaschen Taschen wiki](https://noisebridge.net/wiki/Flaschen_Taschen) and the [protocol docs](https://github.com/hzeller/flaschen-taschen/blob/master/doc/protocols.md).
-- **Ask questions** — open an issue on the relevant repository.
-
-## License
-
-`ft-cpp` is **GPLv3** (following the upstream server). `ft-py`, `ft-swift`, `ft-darwin`, and `ft-scripts` are **MIT**.
-See each repository's `LICENSE` for details.
-
-## Credits
-
-Built on the original FlaschenTaschen by the **Noisebridge** community (San Francisco, 2016) —
-[hzeller/flaschen-taschen](https://github.com/hzeller/flaschen-taschen), with demos from
-[cgorringe/ft-demos](https://github.com/cgorringe/ft-demos).
